@@ -1,0 +1,45 @@
+import { useState, useEffect } from 'react';
+import BlogList from "./BlogList";
+
+
+const Home = ( ) => {
+
+  const [blogs, setBlogs] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null)
+  
+  useEffect (() => {
+    setTimeout(() => {
+      fetch("http://localhost:8000/blogs")
+      .then(res =>{
+        if (!res.ok) {
+          throw new Error("Could not fetch the data for that resource");
+        }
+        return res.json()
+      })
+      .then(data =>{
+        // update the blogs with the data
+        setBlogs(data)
+        // Once the data has loaded, setIsLoading becomes 'false', hence, the 'Loading' msg disappers 
+        setIsLoading(false)
+      }).catch(err =>{
+        // update the setError(err.message)
+        setError(err.message)
+      })
+    }, 1000);
+      
+      }, [])
+
+    return ( 
+        <div className="home">
+        
+        {/* Only when isLoading  is True, I want you to show a loading msg */}
+        {isLoading && <div> Loading... </div>}
+        {/* display the err.message to the DOM */}
+        {error && <div> {error} </div>}
+        {blogs && <BlogList Blogs = {blogs} title="All Blogs!"/>}
+        </div>
+     );
+}
+ 
+export default Home;
