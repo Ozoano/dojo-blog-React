@@ -1,0 +1,41 @@
+import { useState, useEffect } from 'react';
+import BlogList from "./BlogList";
+
+
+const Home = ( ) => {
+
+    // Original Array
+    const [blogs, setBlogs] =  useState([
+        { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
+        { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
+        { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
+      ])
+
+      const [name, setName] = useState("Ninja")
+    
+      useEffect (() => {
+      
+      }, [])
+
+      const DeleteBlogs = (ID) => {
+        // This does not change the original data
+        // All it does is return a new array based the original array
+        // With the filter, we want to return either TRUE OR FALSE
+        // TRUE - if the ID !== ID of the original ID cos we want to keep it in the array
+        // FALSE -if it matches it, hence, delete it
+        const newBlogs = blogs.filter(blog => blog.id !== ID)
+        setBlogs(newBlogs)
+      }
+      
+    return ( 
+        <div className="home">
+            {/* Props */}
+        {<BlogList Blogs = {blogs} title="All Blogs!" DeleteBlog = {DeleteBlogs}/>}
+        {/* {<BlogList Blogs = {blogs.filter(blog => blog.author === "mario")} title=" Mario's Blogs"/>} */}
+        <button onClick={ () => setName("Net Ninja")}>Change Name</button>
+        <p>{name}</p>
+        </div>
+     );
+}
+ 
+export default Home;
